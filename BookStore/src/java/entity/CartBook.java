@@ -11,14 +11,14 @@ package entity;
 public class CartBook {
     private String id;
     private String name;
-    private int price;
-    private int total;
+    private String price;
+    private String total;
     private int quantity;
 
     public CartBook() {
     }
 
-    public CartBook(String id, String name, int price, int total, int quantity) {
+    public CartBook(String id, String name, String price, String total, int quantity) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -42,19 +42,19 @@ public class CartBook {
         this.name = name;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public int getTotal() {
+    public String getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(String total) {
         this.total = total;
     }
 
@@ -70,6 +70,6 @@ public class CartBook {
     public String toString() {
         return "CartBook{" + "id=" + id + ", name=" + name + ", price=" + price + ", total=" + total + ", quantity=" + quantity + '}';
     }
-    
-    
+
+     
 }
