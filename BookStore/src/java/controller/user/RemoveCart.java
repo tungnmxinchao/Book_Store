@@ -4,8 +4,6 @@
  */
 package controller.user;
 
-import dal.BookDAO;
-import entity.BookResponse;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -36,13 +34,13 @@ public class RemoveCart extends HttpServlet {
             String idBook = request.getParameter("idBook");
 
             if (deleteFromCart(idBook, cartHashMap)) {
-                response.sendRedirect("cart");
+                response.sendRedirect("pageCart");
                 return;
             }
         } else {
             cartHashMap.clear();
             
-            response.sendRedirect("cart");
+            response.sendRedirect("pageCart");
         }
 
     }

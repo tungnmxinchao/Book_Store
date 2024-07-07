@@ -80,10 +80,11 @@ public class CheckOut extends HttpServlet {
         } else {
             msg = "Order failed!";
         }
-
+        
+        request.setAttribute("totalAllCart", GetDataUtils.formatToVietnamCurrency(totalAllCart));
         request.setAttribute("listCart", listCart);
         request.setAttribute("msg", msg);
-        request.getRequestDispatcher("Cart.jsp").forward(request, response);
+        request.getRequestDispatcher("ShowCart.jsp").forward(request, response);
 
     }
 

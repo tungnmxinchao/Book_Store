@@ -62,9 +62,9 @@ public class PageCart extends HttpServlet {
         }
 
         request.setAttribute("listCart", listCart);
-        request.setAttribute("totalAllCart", totalAllCart);
+        request.setAttribute("totalAllCart", GetDataUtils.formatToVietnamCurrency(totalAllCart));
         
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
+        request.getRequestDispatcher("ShowCart.jsp").forward(request, response);
 
     }
 

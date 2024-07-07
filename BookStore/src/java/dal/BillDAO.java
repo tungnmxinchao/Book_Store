@@ -43,10 +43,11 @@ public class BillDAO extends DBContext {
                 String fullNameUser = rs.getString(3);
                 int idUser = rs.getInt(4);
                 int total = rs.getInt(5);
+                int status = rs.getInt(6);
 
                 BillResponse bill = new BillResponse(idBill, date,
                         fullNameUser, idUser,
-                        GetDataUtils.formatToVietnamCurrency(total), total);
+                        GetDataUtils.formatToVietnamCurrency(total), status);
 
                 listBill.add(bill);
             }
@@ -58,6 +59,73 @@ public class BillDAO extends DBContext {
         return listBill;
     }
 
+    public List<BillResponse> findBillByCustomerName(String customerNameInput) {
+        String sql = "select * from Bill b\n"
+                + "where b.customer_name like ?";
+
+        try (Connection connection = new DBContext().connection) {
+            ps = connection.prepareStatement(sql);
+            
+            ps.setString(1, "%" + customerNameInput + "%");
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int idBill = rs.getInt(1);
+                Date date = rs.getDate(2);
+                String fullNameUser = rs.getString(3);
+                int idUser = rs.getInt(4);
+                int total = rs.getInt(5);
+                int status = rs.getInt(6);
+
+                BillResponse bill = new BillResponse(idBill, date,
+                        fullNameUser, idUser,
+                        GetDataUtils.formatToVietnamCurrency(total), status);
+
+                listBill.add(bill);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            DBContext.closeResultSetAndStatement(rs, ps);
+        }
+        return listBill;
+    }
+
+    public BillResponse findBillByID(int idBillInput) {
+        String sql = "select * from Bill b\n"
+                + "where b.bill_id = ?";
+
+        BillResponse bill = null;
+
+        try (Connection connection = new DBContext().connection) {
+            ps = connection.prepareStatement(sql);
+
+            ps.setInt(1, idBillInput);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int idBill = rs.getInt(1);
+                Date date = rs.getDate(2);
+                String fullNameUser = rs.getString(3);
+                int idUser = rs.getInt(4);
+                int total = rs.getInt(5);
+                int status = rs.getInt(6);
+
+                bill = new BillResponse(idBill, date,
+                        fullNameUser, idUser,
+                        GetDataUtils.formatToVietnamCurrency(total), status);
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            DBContext.closeResultSetAndStatement(rs, ps);
+        }
+        return bill;
+    }
+
     public boolean updateStatusBill(int idBill, int status) {
         String sql = "UPDATE [dbo].[Bill]\n"
                 + "   SET [status] = ?\n"
@@ -67,7 +135,7 @@ public class BillDAO extends DBContext {
             ps = connection.prepareStatement(sql);
 
             ps.setInt(1, status);
-            ps.setInt(1, idBill);
+            ps.setInt(2, idBill);
 
             int rowAffected = ps.executeUpdate();
 
@@ -86,7 +154,7 @@ public class BillDAO extends DBContext {
     public List<BillDetailsResponse> findBillDetailsByBillID(int idBill) {
         String sql = "select bd.id_bill_details, bd.book_id, b.[name], bd.amount, b.price, bd.bill_id  from BillDetails bd\n"
                 + "join Books b\n"
-                + "on bd.bill_id = b.book_id\n"
+                + "on bd.book_id = b.book_id\n"
                 + "where bd.bill_id = ?";
 
         try (Connection connection = new DBContext().connection) {
@@ -106,7 +174,7 @@ public class BillDAO extends DBContext {
 
                 BillDetailsResponse billDetails = new BillDetailsResponse(idBillDetails,
                         idBook, bookName, GetDataUtils.formatToVietnamCurrency(priceBook),
-                        amount, idBill);
+                        amount, billID);
 
                 listBillDetails.add(billDetails);
             }
@@ -117,7 +185,5 @@ public class BillDAO extends DBContext {
         }
         return listBillDetails;
     }
-
-    
 
 }

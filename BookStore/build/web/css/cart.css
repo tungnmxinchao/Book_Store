@@ -1,0 +1,37 @@
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f2f2f2; 
+}
+
+.cart {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+table {
+    background-color: #fff; 
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+.cart-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+.cart-actions button, .cart-actions a {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+}
+.cart-actions button:hover, .cart-actions a:hover {
+    background-color: #0056b3;
+}

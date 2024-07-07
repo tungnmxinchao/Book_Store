@@ -13,7 +13,7 @@ public class Users {
     private String username;
     private String password;
     private String fullName;
-    private String address;
+    private String rollNumber;
     private String phone;
     private int role;
     private int status;
@@ -21,12 +21,12 @@ public class Users {
     public Users() {
     }
 
-    public Users(int idUser, String username, String password, String fullName, String address, String phone, int role, int status) {
+    public Users(int idUser, String username, String password, String fullName, String rollNumber, String phone, int role, int status) {
         this.idUser = idUser;
         this.username = username;
         this.password = password;
         this.fullName = fullName;
-        this.address = address;
+        this.rollNumber = rollNumber;
         this.phone = phone;
         this.role = role;
         this.status = status;
@@ -64,12 +64,12 @@ public class Users {
         this.fullName = fullName;
     }
 
-    public String getAddress() {
-        return address;
+    public String getRollNumber() {
+        return rollNumber;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setRollNumber(String rollNumber) {
+        this.rollNumber = rollNumber;
     }
 
     public String getPhone() {
@@ -98,8 +98,10 @@ public class Users {
 
     @Override
     public String toString() {
-        return "Users{" + "idUser=" + idUser + ", username=" + username + ", password=" + password + ", fullName=" + fullName + ", address=" + address + ", phone=" + phone + ", role=" + role + ", status=" + status + '}';
+        return "Users{" + "idUser=" + idUser + ", username=" + username + ", password=" + password + ", fullName=" + fullName + ", rollNumber=" + rollNumber + ", phone=" + phone + ", role=" + role + ", status=" + status + '}';
     }
+
+    
     
     
 }

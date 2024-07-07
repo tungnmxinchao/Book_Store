@@ -6,6 +6,7 @@ package controller.user;
 
 import dal.BookDAO;
 import entity.BookResponse;
+import entity.Category;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -29,6 +30,7 @@ public class Home extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
+        BookDAO bookDAO = new BookDAO();
 
         HashMap<String, Integer> cartHashMapSession = (HashMap<String, Integer>) session.getAttribute("cartHashMap");
 
@@ -38,7 +40,10 @@ public class Home extends HttpServlet {
         }
 
         List<BookResponse> listBook = getListBook(request);
-
+        
+        List<Category> listCategory = bookDAO.findAllCategoryBook();
+        
+        request.setAttribute("listCategory", listCategory);
         request.setAttribute("listBook", listBook);
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
@@ -65,13 +70,11 @@ public class Home extends HttpServlet {
                 : request.getParameter("action");
         switch (action) {
             case "search":
-                List<BookResponse> getAllBooks = bookDAO.findAllBook();
-                String name = request.getParameter("name");
-
-                listBook = findBookByName(getAllBooks, name);
+                String name = request.getParameter("bookName");
+                listBook = bookDAO.findBookByName(name);
                 break;
             case "category":
-                int categoryRequest = Integer.parseInt(request.getParameter("category"));
+                int categoryRequest = Integer.parseInt(request.getParameter("categoryID"));
                 listBook = bookDAO.findAllBookByCategory(categoryRequest);
                 break;
             default:
@@ -80,18 +83,6 @@ public class Home extends HttpServlet {
         }
 
         return listBook;
-    }
-
-    private List<BookResponse> findBookByName(List<BookResponse> getAllBooks, String name) {
-        List<BookResponse> listSearch = new ArrayList<>();
-
-        for (BookResponse book : getAllBooks) {
-            if (name.toLowerCase().contains(book.getName().toLowerCase())) {
-                listSearch.add(book);
-            }
-        }
-
-        return listSearch;
     }
 
 }

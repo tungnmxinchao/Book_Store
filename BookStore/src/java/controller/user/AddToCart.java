@@ -47,7 +47,7 @@ public class AddToCart extends HttpServlet {
 
         session.setAttribute("cartHashMap", cartHashMap);
 
-        response.sendRedirect("cart");
+        response.sendRedirect("pageCart");
 
     }
 

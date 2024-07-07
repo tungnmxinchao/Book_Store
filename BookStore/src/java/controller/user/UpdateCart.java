@@ -24,6 +24,12 @@ public class UpdateCart extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String arrayQuantityRequest = request.getParameter("arrtayQuantity");
 
         String[] arrayQuantity = arrayQuantityRequest.split(",");
@@ -46,13 +52,6 @@ public class UpdateCart extends HttpServlet {
             }
         }
         response.sendRedirect("pageCart");
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
     }
 
     @Override
