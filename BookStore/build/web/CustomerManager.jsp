@@ -38,8 +38,8 @@
                             <th>Phone</th>
                             <th>Role</th>
                             <th>Status</th>
-                            <th></th>
-                            <th></th>
+                            <th>Action</th>
+                
                         </tr>
                     </thead>
                     <tbody>
@@ -63,6 +63,7 @@
                                     <td>Blocked</td>
                                 </c:if>
                                 <td>
+                                    <a href="detailsUser?idUser=${listUser.idUser}" class="button update-btn"><i class="fas fa-edit"></i>Details</a>
                                     <a href="updateStatusUser?userId=${listUser.idUser}" class="button delete-btn" onclick="return confirm('Are you sure you want to delete this user?');"><i class="fas fa-trash-alt"></i> Delete</a>
                                 </td>
                             </tr>

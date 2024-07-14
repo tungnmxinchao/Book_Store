@@ -61,7 +61,8 @@ public class UserDAO extends DBContext {
     }
 
     public List<Users> findAllUsers() {
-        String sql = "select * from Users";
+        String sql = "select * from Users u \n"
+                + "where u.status = 1";
 
         try (Connection connection = new DBContext().connection) {
             ps = connection.prepareStatement(sql);
@@ -95,7 +96,7 @@ public class UserDAO extends DBContext {
 
     public List<Users> findUserByName(String name) {
         String sql = "select * from Users u\n"
-                + "where u.full_name like ?";
+                + "where u.full_name like ? and u.status = 1";
 
         try (Connection connection = new DBContext().connection) {
             ps = connection.prepareStatement(sql);
@@ -171,12 +172,76 @@ public class UserDAO extends DBContext {
             int rowAffected = ps.executeUpdate();
 
             return rowAffected > 0;
-            
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
             DBContext.closeResultSetAndStatement(rs, ps);
         }
+        return false;
+    }
+
+    public Users findUsersByID(int idUser) {
+        String sql = "select * from Users u\n"
+                + "where u.[user_id] = ?";
+
+        Users user = null;
+
+        try (Connection connection = new DBContext().connection) {
+            ps = connection.prepareStatement(sql);
+
+            ps.setInt(1, idUser);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int userID = rs.getInt(1);
+                String username = rs.getString(2);
+                String password = rs.getString(3);
+                String fullName = rs.getString(4);
+                String rollNum = rs.getString(5);
+                String phoneNum = rs.getString(6);
+                int role = rs.getInt(7);
+                int status = rs.getInt(8);
+
+                user = new Users(userID, username, password, fullName,
+                        rollNum, phoneNum, role, status);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            DBContext.closeResultSetAndStatement(rs, ps);
+        }
+
+        return user;
+    }
+
+    public boolean updateInforUser(int idUser, String fullName, String rollNumber,
+            String phone, int role) {
+
+        String sql = "UPDATE [dbo].[Users] SET full_name = ?, rollNumber = ?, "
+                + "phone = ?, role = ? WHERE user_id = ?";
+        try (Connection connection = new DBContext().connection) {
+
+            ps = connection.prepareStatement(sql);
+
+            ps.setString(1, fullName);
+            ps.setString(2, rollNumber);
+            ps.setString(3, phone);
+            ps.setInt(4, role);
+            ps.setInt(5, idUser);
+
+            int rowAffected = ps.executeUpdate();
+
+            return rowAffected > 0;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            DBContext.closeResultSetAndStatement(rs, ps);
+        }
+
         return false;
     }
 
