@@ -37,7 +37,7 @@ public class Login extends HttpServlet {
 
         Users user = userDAO.findUser(username, password);
 
-        if (user != null) {
+        if (user != null && user.getStatus() != 0) {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             
